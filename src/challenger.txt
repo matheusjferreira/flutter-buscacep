@@ -1,0 +1,17 @@
+Desafío Flutter:
+
+Deve-se criar um app de busca de cep;
+
+Alterar imagem do app; (livre escolha)
+
+Conter SplashScreen com a mesma imagem escolhida para o ícone do app;
+
+Deve conter duas telas:
+    - A primeira com um texto central para informar o cep, deve-se verificar se o CEP informado é válido, alertando o usuário caso não seja;
+    - Na segunda tela mostrar as informações encontradas;
+
+Utilizar um banco local para salvar os resultados já pesquisados e utilizar desses quando possível ao realizar novas buscas;
+
+App precisa conter um botão para alteração de tema (dark/light);
+
+link api: https://viacep.com.br/
