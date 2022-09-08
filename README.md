@@ -45,6 +45,7 @@ api: http://viacep.com.br
 > ## Dependencies:
 
 Flutter version: 3.3.0;
+
 Flutter packages:
 
     dio: ^4.0.6
