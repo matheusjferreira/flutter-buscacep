@@ -23,11 +23,6 @@ class _HomePageState extends State<HomePage> {
   final IconData _iconLight = Icons.wb_sunny;
   final IconData _iconDark = Icons.nights_stay;
 
-  final snackBar = SnackBar(
-    content: const Text('Cep não encontrado ou não existe...'),
-    backgroundColor: Colors.red.shade300,
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +68,7 @@ class _HomePageState extends State<HomePage> {
                     return null;
                   },
                   maxLength: 8,
+                  keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
@@ -81,13 +77,20 @@ class _HomePageState extends State<HomePage> {
                       String cepWithMask =
                           '${_cepController.text.substring(0, 5)}-${_cepController.text.substring(5, 8)}';
 
-                      final data = await controller.getCEPDatabase(cepWithMask);
+                      final data =
+                          await controller.getCEPDatabase(cepWithMask).onError(
+                                (error, stackTrace) => _buildSnackBar(
+                                  context,
+                                  'Servidor indisponível. Tente novamente mais tarde.',
+                                ),
+                              );
 
                       data.cep != null
                           ? _buildNextPage(data)
                           : Future.delayed(const Duration(milliseconds: 50))
                               .then(
-                              (value) => _buildSnackBar(context),
+                              (value) => _buildSnackBar(context,
+                                  'Cep não encontrado ou não existe...'),
                             );
                     }
                   },
@@ -108,7 +111,12 @@ class _HomePageState extends State<HomePage> {
     Modular.to.pushNamed('/result/', arguments: {'result': cepModel});
   }
 
-  _buildSnackBar(context) {
-    return ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  _buildSnackBar(context, String message) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red.shade300,
+      ),
+    );
   }
 }
